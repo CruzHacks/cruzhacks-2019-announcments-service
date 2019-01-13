@@ -16,6 +16,8 @@
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+*.env
+
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
