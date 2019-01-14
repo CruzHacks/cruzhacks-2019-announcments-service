@@ -28,10 +28,25 @@ namespace cruzhacks_2019_announcments_service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Parse env vars from local .env file.
             DotEnv.Config();
+
             //Console.WriteLine(System.Environment.GetEnvironmentVariable("TEST_VAR"));
-            string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
-            services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
+          
+            string env = System.Environment.GetEnvironmentVariable("DEV_ENVIRONMENT");
+
+            if (env.Equals("PROD"))
+            {
+                // Azure SQL Database
+                //string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
+                //services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
+            }
+            else
+            {
+                // In Memory DB
+                services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
+            }
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
