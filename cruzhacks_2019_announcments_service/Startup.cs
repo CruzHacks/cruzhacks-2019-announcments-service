@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using dotenv.net;
+using cruzhacks_2019_announcments_service.Models;
 
 namespace cruzhacks_2019_announcments_service
 {
@@ -25,6 +28,10 @@ namespace cruzhacks_2019_announcments_service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            DotEnv.Config();
+            Console.WriteLine(System.Environment.GetEnvironmentVariable("TEST_VAR"));
+            string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
+            services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
