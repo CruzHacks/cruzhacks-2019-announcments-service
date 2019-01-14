@@ -35,18 +35,21 @@ namespace cruzhacks_2019_announcments_service
           
             string env = System.Environment.GetEnvironmentVariable("DEV_ENVIRONMENT");
 
-            if (env.Equals("PROD"))
+            /*
+            if (System.Environment.GetEnvironmentVariable("DEPLOYMENT_ENV").Equals("PROD"))
             {
                 // Azure SQL Database
-                //string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
-                //services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
+                string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
+                services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
             }
             else
             {
                 // In Memory DB
                 services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
             }
-            
+            */
+
+            services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
