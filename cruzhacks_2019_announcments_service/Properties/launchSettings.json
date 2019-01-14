@@ -23,8 +23,7 @@
       "launchUrl": "api/values",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_DONNECTION_STRING": "\"Server=tcp:cruzhacks-sms-service-dev.database.windows.net,1433;Initial Catalog=cruzhacks-sms-service-dev;Persist Security Info=False;User ID=kyle;Password=cmV:{)5Qd|$.JVn*|_AmP8}.8Hh2;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\";"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

@@ -29,7 +29,7 @@ namespace cruzhacks_2019_announcments_service
         public void ConfigureServices(IServiceCollection services)
         {
             DotEnv.Config();
-            Console.WriteLine(System.Environment.GetEnvironmentVariable("TEST_VAR"));
+            //Console.WriteLine(System.Environment.GetEnvironmentVariable("TEST_VAR"));
             string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
             services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
