@@ -28,7 +28,6 @@ namespace cruzhacks_2019_announcments_service.Controllers
             return await _databaseContext.StoredMessages.ToListAsync();
         }
 
-        
         [HttpGet("{id}")]
         public async Task<ActionResult<Message>> getMessageByID(int id)
         {
@@ -37,7 +36,6 @@ namespace cruzhacks_2019_announcments_service.Controllers
             return targetMessage;
         }
         
-
         [HttpPost]
         public async Task<ActionResult<Message>> uploadMessage([FromBody] Message incomingMessage)
         {

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
 using cruzhacks_2019_announcments_service.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace cruzhacks_2019_announcments_service
 {
@@ -64,6 +66,32 @@ namespace cruzhacks_2019_announcments_service
             {
                 app.UseHsts();
             }
+
+            // Check API Key
+            app.Use((context, next) =>
+            {
+                string authHeader = context.Request.Headers["Authorization"];
+                string apiKey = System.Environment.GetEnvironmentVariable("API_KEY");
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.Equals(apiKey))
+                {
+
+                    Dictionary<string, string> responseBody = new Dictionary<string, string>() {
+                        { "code", "401"},
+                        { "error", "true" },
+                        { "message", "Invalid or missing API key." }
+                    };
+
+                    string jsonResponse = JsonConvert.SerializeObject(responseBody);
+
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+
+                    return context.Response.WriteAsync(jsonResponse);
+                }
+
+                return next();
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
