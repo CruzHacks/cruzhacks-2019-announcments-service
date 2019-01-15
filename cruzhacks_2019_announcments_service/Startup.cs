@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
@@ -34,24 +35,26 @@ namespace cruzhacks_2019_announcments_service
             DotEnv.Config();
 
             //Console.WriteLine(System.Environment.GetEnvironmentVariable("TEST_VAR"));
-          
+
             string env = System.Environment.GetEnvironmentVariable("DEV_ENVIRONMENT");
 
-            /*
-            if (System.Environment.GetEnvironmentVariable("DEPLOYMENT_ENV").Equals("PROD"))
+            // Use Azure DB if env is production. Use in-memory db if env is dev or not set.
+
+            if (env != null && env.Equals("PROD"))
             {
                 // Azure SQL Database
-                string connectionString = System.Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
+                string connectionString = @Environment.GetEnvironmentVariable("DB_DONNECTION_STRING");
+                Console.WriteLine(connectionString);
                 services.AddDbContext<MessageContext>(opt => opt.UseSqlServer(connectionString));
+
             }
             else
             {
                 // In Memory DB
                 services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
             }
-            */
 
-            services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
+            //services.AddDbContext<MessageContext>(opt => opt.UseInMemoryDatabase("Announcments"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
