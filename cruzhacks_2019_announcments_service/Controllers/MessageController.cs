@@ -35,13 +35,14 @@ namespace cruzhacks_2019_announcments_service.Controllers
             if (targetMessage == null) return NotFound();
             return targetMessage;
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Message>> uploadMessage([FromBody] Message incomingMessage)
         {
             incomingMessage.timeStamp = DateTime.Now.ToString();
-            _databaseContext.StoredMessages.Add(incomingMessage);
-            await _databaseContext.SaveChangesAsync();          
+            //incomingMessage.Id = System.Guid.NewGuid().ToString();
+            await _databaseContext.StoredMessages.AddAsync(incomingMessage);
+            await _databaseContext.SaveChangesAsync();
             return incomingMessage;
         }
 
