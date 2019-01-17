@@ -20,22 +20,54 @@ namespace cruzhacks_2019_announcments_service.Models
             _authToken = Environment.GetEnvironmentVariable("TWILIO_TOKEN");
             _accountNumber = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_PHONE_NUMBER");
             TwilioClient.Init(_accountSid, _authToken);
-            _phoneNumbers.Add("7072921668");
+
+            // CruzHacks Organizers
+
+            if (Environment.GetEnvironmentVariable("DEV_ENVIRONMENT") == "DEV")
+            {
+                _phoneNumbers.Add("7072921668");
+                _phoneNumbers.Add("8583959823");
+                _phoneNumbers.Add("4088938387");
+                _phoneNumbers.Add("4083327667");
+                _phoneNumbers.Add("3106581281");
+                _phoneNumbers.Add("8609188592");
+                _phoneNumbers.Add("9092670121");
+                _phoneNumbers.Add("4082186135");
+                _phoneNumbers.Add("4083329644");
+            }
+            else
+            {
+                // Get Live Hackers Numbers
+            }
         }
 
         public void SendAnnouncment(string messageTitle, string messageBody)
         {
             var twilioAccountNumber = new Twilio.Types.PhoneNumber(_accountNumber);
+            string formattedMessage = _FormatAnnouncment(messageTitle, messageBody);
 
             foreach (string number in _phoneNumbers)
             {
-                var message = MessageResource.Create(
-                    body: messageBody,
-                    from: twilioAccountNumber,
-                    to: new Twilio.Types.PhoneNumber("+1" + number)
-                );
-                Console.WriteLine(message.Sid);
+                try
+                {
+                    var message = MessageResource.Create(
+                        body: formattedMessage,
+                        from: twilioAccountNumber,
+                        to: new Twilio.Types.PhoneNumber("+1" + number)
+                    );
+                    Console.WriteLine(message.Sid);
+                }
+                catch (Twilio.Exceptions.ApiException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
+        }
+
+        private string _FormatAnnouncment(string messageTitle, string messageBody)
+        {
+            string helpInfo = "----\nReply STOP to unsubscribe from further notifications.";
+            return "CruzHacks Hacker Announcment \n \n" + messageTitle + "\n\n" + messageBody + "\n\n" + helpInfo;
         }
     }
 }
