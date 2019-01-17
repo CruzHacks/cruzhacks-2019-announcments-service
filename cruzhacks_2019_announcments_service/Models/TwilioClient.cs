@@ -4,6 +4,7 @@ using System.Linq;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace cruzhacks_2019_announcments_service.Models
 {
@@ -25,7 +26,8 @@ namespace cruzhacks_2019_announcments_service.Models
 
             if (Environment.GetEnvironmentVariable("DEV_ENVIRONMENT") == "DEV")
             {
-                _phoneNumbers.Add("7072921668");
+                _phoneNumbers.Add("(707) 292 - 1668");
+                /*
                 _phoneNumbers.Add("8583959823");
                 _phoneNumbers.Add("4088938387");
                 _phoneNumbers.Add("4083327667");
@@ -34,6 +36,7 @@ namespace cruzhacks_2019_announcments_service.Models
                 _phoneNumbers.Add("9092670121");
                 _phoneNumbers.Add("4082186135");
                 _phoneNumbers.Add("4083329644");
+                */
             }
             else
             {
@@ -50,10 +53,12 @@ namespace cruzhacks_2019_announcments_service.Models
             {
                 try
                 {
+                    string formattedNumber = Regex.Replace(number, "[^0-9]", "");
+
                     var message = MessageResource.Create(
                         body: formattedMessage,
                         from: twilioAccountNumber,
-                        to: new Twilio.Types.PhoneNumber("+1" + number)
+                        to: new Twilio.Types.PhoneNumber(formattedNumber)
                     );
                     Console.WriteLine(message.Sid);
                 }
@@ -67,7 +72,7 @@ namespace cruzhacks_2019_announcments_service.Models
         private string _FormatAnnouncment(string messageTitle, string messageBody)
         {
             string helpInfo = "----\nReply STOP to unsubscribe from further notifications.";
-            return "CruzHacks Hacker Announcment \n \n" + messageTitle + "\n\n" + messageBody + "\n\n" + helpInfo;
+            return "CruzHacks Hacker Announcment \n\n" + messageTitle + "\n\n" + messageBody + "\n\n" + helpInfo;
         }
     }
 }
