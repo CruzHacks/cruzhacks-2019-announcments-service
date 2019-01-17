@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
-using cruzhacks_2019_announcments_service.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 

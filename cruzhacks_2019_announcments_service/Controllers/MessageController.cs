@@ -15,6 +15,7 @@ namespace cruzhacks_2019_announcments_service.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
+
         private readonly MessageContext _databaseContext;
 
         public MessageController(MessageContext context)
@@ -43,6 +44,10 @@ namespace cruzhacks_2019_announcments_service.Controllers
             //incomingMessage.Id = System.Guid.NewGuid().ToString();
             await _databaseContext.StoredMessages.AddAsync(incomingMessage);
             await _databaseContext.SaveChangesAsync();
+
+            var client = new Models.TwilioAnnouncmentClient();
+            client.SendAnnouncment(incomingMessage.messageTitle, incomingMessage.messageBody);
+
             return incomingMessage;
         }
 
